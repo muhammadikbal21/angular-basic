@@ -2,9 +2,11 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// digunakan build yang kita gunakan saat ini (development)
 export const environment = {
   production: false,
-  baseUrl: '/'
+  baseUrl: '/',
+  appName: 'My First Application.'
 };
 
 /*
