@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
+import { ResumeModule } from './resume/resume.module';
 
 @NgModule({
   // semua component akan dideklarasikan dibawah ini, agar dapat digunakan tag selectornya di html
@@ -14,7 +15,8 @@ import { PagesModule } from './pages/pages.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    PagesModule
+    PagesModule,
+    ResumeModule
   ],
   // untuk service yang akan merequest dari backend
   providers: [],
