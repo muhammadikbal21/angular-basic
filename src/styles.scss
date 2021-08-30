@@ -1,3 +1,22 @@
+.resume-title {
+  font-size: 8rem;
+  font-family: 'Teko', sans-serif;
+}
+
+.title-section {
+  font-family: 'Amaranth', sans-serif;
+}
+
+.desc-section {
+  font-size: 1.75rem;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.skill-accumulative {
+  top: 20%;
+  left: 35%;
+}
+
 .footer-logo {
   height: 30px;
 }
@@ -9,5 +28,23 @@
 .text-enigma {
   color: #23418F;
 }
-  
-  
+
+@media only screen and (max-width: 992px) {
+  .resume-title {
+    font-size: 3.5rem;
+  }
+
+  .img-thumbnail {
+    height: 500px;
+    margin-bottom: 24px;
+  }
+
+  .desc-section {
+    font-size: 1rem;
+  }
+
+  p.desc-section {
+    font-size: 1.75rem;
+  }
+
+}
