@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
 import { ResumeModule } from './resume/resume.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   // semua component akan dideklarasikan dibawah ini, agar dapat digunakan tag selectornya di html
@@ -16,7 +17,8 @@ import { ResumeModule } from './resume/resume.module';
     BrowserModule,
     AppRoutingModule,
     PagesModule,
-    ResumeModule
+    ResumeModule,
+    SharedModule
   ],
   // untuk service yang akan merequest dari backend
   providers: [],
