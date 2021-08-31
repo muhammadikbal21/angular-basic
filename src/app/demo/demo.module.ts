@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DemoComponent } from './demo.component';
 import { BankAccountComponent } from './components/bank-account/bank-account.component';
 import { TodoComponent } from './components/todo/todo.component';
+import { DemoRoutingModule } from './demo-routing.module';
 
 
 
@@ -13,7 +14,8 @@ import { TodoComponent } from './components/todo/todo.component';
     TodoComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    DemoRoutingModule
   ]
 })
 export class DemoModule { }
