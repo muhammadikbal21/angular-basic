@@ -1,0 +1,21 @@
+<!-- *ngIf dan *ngFor adalah Directive -->
+<!-- ng-container adalah pembungkus, dapat digunakan pada directive (direkomendasikan) -->
+<ng-container *ngIf="list">
+  <ul class="list-unstyled">
+    <li *ngFor="let item of list" >
+      <strong *ngIf="item.isDone; else notDone">
+        <i class="bi bi-check-square text-success" (click)="selectTodo(item)"></i>
+      </strong>
+      <!-- ini akan dirender ketika kondisi else dari *ngIf -->
+      <ng-template #notDone>
+        <strong>
+          <i class="bi bi-square" (click)="selectTodo(item)"></i>
+        </strong>
+      </ng-template>
+      <!-- ng-container tidak dapat dilihat elementnya di inspect element -->
+      <ng-container>
+        {{ item.name }}
+      </ng-container>
+    </li>
+  </ul>
+</ng-container>

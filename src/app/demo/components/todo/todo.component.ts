@@ -46,4 +46,8 @@ export class TodoComponent implements OnInit {
     ]
   }
 
+  onSelectedTodo(value: Todo) : void {
+    console.log('todo terpilih : ', value);
+  }
+
 }
