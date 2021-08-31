@@ -15,7 +15,7 @@ import { SharedModule } from './shared/shared.module';
   // untuk mengimport package yang dibutuhkan pada component ini
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    AppRoutingModule, // setelah membuat route di app-routing, import module app-routing nya disini
     PagesModule,
     ResumeModule,
     SharedModule

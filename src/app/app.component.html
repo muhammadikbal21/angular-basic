@@ -1,11 +1,5 @@
 <div class="container-md shadow-lg m-lg-2 mx-lg-auto">
   <app-shared-header></app-shared-header>
-  <app-resume></app-resume>
-  <footer class="row bg-enigma shadow-lg">
-    <div class="col">
-      <a href="https://premium.enigmacamp.com" class="float-end">
-        <img src="assets/images/enigmacamp.png" alt="" class="img-fluid my-3 footer-logo">
-      </a>
-    </div>
-  </footer>
+  <router-outlet></router-outlet> <!--ini adalah nama default selector dari Router di Angular-->
+  <app-shared-footer></app-shared-footer>
 </div>
