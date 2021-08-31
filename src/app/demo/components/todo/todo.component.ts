@@ -13,8 +13,9 @@ export class TodoComponent implements OnInit {
   pageTitle: string = 'Todo List Page';
   
   todo = {
-    id: 1,
-    name: 'Makan'
+    id: 4,
+    name: 'Makan',
+    isDone: false
   };
 
   // constructor pertama kali dipanggil

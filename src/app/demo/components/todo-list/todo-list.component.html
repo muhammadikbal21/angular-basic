@@ -4,6 +4,7 @@
   <ul class="list-unstyled">
     <li *ngFor="let item of list" >
       <strong *ngIf="item.isDone; else notDone">
+          <!-- (click) adalah event binding, properti bawaannya dari html di angular -->
         <i class="bi bi-check-square text-success" (click)="selectTodo(item)"></i>
       </strong>
       <!-- ini akan dirender ketika kondisi else dari *ngIf -->
