@@ -8,11 +8,9 @@
       [list]="todos"
       title="Judul Baru"
       (selectedTodo)="onSelectedTodo($event)"
-      [(toggleDone)]="todo"
     ></app-todo-list>
-    <p>Todo {{ todo.name }} {{ todo.isDone ? "selesai" : "belum selesai" }}</p>
   </div>
   <div class="col">
-    <app-todo-form (todo)="saveTodo($event)"></app-todo-form>
+    <app-todo-form [edit]="todo" (todo)="saveTodo($event)"></app-todo-form>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -13,13 +13,19 @@ import { Todo } from '../../models/todo.interface';
   templateUrl: './todo-form.component.html',
   styleUrls: ['./todo-form.component.scss'],
 })
-export class TodoFormComponent implements OnInit {
+export class TodoFormComponent implements OnInit, OnChanges {
+  @Input() edit?: Todo;
   @Output() todo: EventEmitter<Todo> = new EventEmitter();
 
   form!: FormGroup;
   field: typeof TodoField = TodoField;
 
   constructor() {}
+
+  // ini adalah lifecycle nya angular, ketika ada perubahan dia akan mengupdate nilainya
+  ngOnChanges(): void {
+    this.setFormValues();
+  }
 
   ngOnInit(): void {
     this.buildForm();
@@ -32,11 +38,21 @@ export class TodoFormComponent implements OnInit {
       [TodoField.IS_DONE]: new FormControl(false),
     });
   }
+  
+  // ini untuk mengubah value dari formnya agar dapat diubah
+  setFormValues(): void {
+    if (this.edit) {
+      this.form.get(TodoField.ID)?.setValue(this.edit.id);
+      this.form.get(TodoField.NAME)?.setValue(this.edit.name);
+      this.form.get(TodoField.IS_DONE)?.setValue(this.edit.isDone);
+    }
+  }
 
   addTodo(): void {
     if (this.form.valid) {
       console.log('value : ', this.form.value);
       this.todo.emit(this.form.value);
+      this.form.reset(); // berfungsi untuk mereset formnya ketika sudah meng-save datanya
     }
   }
 
