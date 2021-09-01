@@ -51,4 +51,8 @@ export class TodoComponent implements OnInit {
     console.log('todo terpilih : ', value);
   }
 
+  saveTodo(todo: Todo): void {
+    todo.id = this.todos.length + 1;
+    this.todos = this.todos.concat([todo]);
+  }
 }

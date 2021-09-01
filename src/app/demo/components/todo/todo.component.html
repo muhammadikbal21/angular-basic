@@ -13,6 +13,6 @@
     <p>Todo {{ todo.name }} {{ todo.isDone ? "selesai" : "belum selesai" }}</p>
   </div>
   <div class="col">
-    <app-todo-form></app-todo-form>
+    <app-todo-form (todo)="saveTodo($event)"></app-todo-form>
   </div>
 </div>

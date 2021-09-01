@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TodoField } from '../../models/todo-field.enum';
+import { Todo } from '../../models/todo.interface';
 
 @Component({
   selector: 'app-todo-form',
@@ -13,6 +14,8 @@ import { TodoField } from '../../models/todo-field.enum';
   styleUrls: ['./todo-form.component.scss'],
 })
 export class TodoFormComponent implements OnInit {
+  @Output() todo: EventEmitter<Todo> = new EventEmitter();
+
   form!: FormGroup;
   field: typeof TodoField = TodoField;
 
@@ -33,6 +36,7 @@ export class TodoFormComponent implements OnInit {
   addTodo(): void {
     if (this.form.valid) {
       console.log('value : ', this.form.value);
+      this.todo.emit(this.form.value);
     }
   }
 
