@@ -25,7 +25,7 @@ export class TodoListComponent implements OnInit {
   // @Input() toggleDone! : Todo; // tanda seru bersifat not null
   // @Output() toggleDoneChange : EventEmitter<Todo> = new EventEmitter<Todo>();
   
-  @Input() todo! : Todo; // tanda seru bersifat not null
+  @Input() todo: Todo | undefined; // tanda seru bersifat not null
   @Output() todoChange : EventEmitter<Todo> = new EventEmitter<Todo>();
 
   constructor() { }
@@ -35,10 +35,20 @@ export class TodoListComponent implements OnInit {
 
   // ini yang akan dipanggil di html
   selectTodo(todo: Todo) : void {
-    this.todoChange.emit(todo); // emit berfungsi agar method ini dapat digunakan ke luar
-    // if (todo.id === this.toggleDone.id) {
-    //   this.applyToggleDone();
-    // }
+    if (!this.todo || (this.todo && this.todo.id !== todo.id)) {
+      console.log('selected : ', todo);
+      this.todo = todo;
+      this.todoChange.emit(todo); // emit berfungsi agar method ini dapat digunakan ke luar
+    } else {
+      this.todo = undefined;
+      this.todoChange.emit();
+    }
+  }
+
+  toggleActive(todoId: number): string {
+    // this.todo?.id maksudnya ketika objectnya ada maka lanjut ke spesifik id nya,
+    // jika objectnya tidak ada maka dia adalah undefined (false)
+    return this.todo?.id === todoId ? ' active bg-warning border-warning text-dark' : ' ';
   }
 
   // applyToggleDone() : void {

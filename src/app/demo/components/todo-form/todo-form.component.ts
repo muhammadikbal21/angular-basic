@@ -45,6 +45,8 @@ export class TodoFormComponent implements OnInit, OnChanges {
       this.form.get(TodoField.ID)?.setValue(this.todo.id);
       this.form.get(TodoField.NAME)?.setValue(this.todo.name);
       this.form.get(TodoField.IS_DONE)?.setValue(this.todo.isDone);
+    } else if(this.form) {
+      this.form.reset();
     }
   }
 
