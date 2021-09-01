@@ -1,7 +1,7 @@
 <h3>Todo Form</h3>
 <!-- formGroup, ngSubmit, formControlName adalah bawaan dari angular -->
 <form [formGroup]="form" (ngSubmit)="addTodo()">
-  <div class="input-group mb-3">
+  <div class="input-group mb-3 has-validation">
     <div class="input-group-text">
       <input
         class="form-check-input mt-0"
@@ -11,10 +11,10 @@
     </div>
     <input
       type="text"
-      class="form-control"
+      class="form-control {{ isValid(field.NAME) }}"
       formControlName="{{ field.NAME }}"
       placeholder="Add name"
     />
-    <button class="btn btn-success" type="submit">Add</button>
+    <button class="btn btn-success" type="submit" [disabled]="form.invalid">Add</button>
   </div>
 </form>
