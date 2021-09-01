@@ -14,8 +14,8 @@ import { Todo } from '../../models/todo.interface';
   styleUrls: ['./todo-form.component.scss'],
 })
 export class TodoFormComponent implements OnInit, OnChanges {
-  @Input() edit?: Todo;
-  @Output() todo: EventEmitter<Todo> = new EventEmitter();
+  @Input() todo!: Todo;
+  @Output() todoChange: EventEmitter<Todo> = new EventEmitter();
 
   form!: FormGroup;
   field: typeof TodoField = TodoField;
@@ -41,17 +41,17 @@ export class TodoFormComponent implements OnInit, OnChanges {
   
   // ini untuk mengubah value dari formnya agar dapat diubah
   setFormValues(): void {
-    if (this.edit) {
-      this.form.get(TodoField.ID)?.setValue(this.edit.id);
-      this.form.get(TodoField.NAME)?.setValue(this.edit.name);
-      this.form.get(TodoField.IS_DONE)?.setValue(this.edit.isDone);
+    if (this.todo) {
+      this.form.get(TodoField.ID)?.setValue(this.todo.id);
+      this.form.get(TodoField.NAME)?.setValue(this.todo.name);
+      this.form.get(TodoField.IS_DONE)?.setValue(this.todo.isDone);
     }
   }
 
   addTodo(): void {
     if (this.form.valid) {
       console.log('value : ', this.form.value);
-      this.todo.emit(this.form.value);
+      this.todoChange.emit(this.form.value);
       this.form.reset(); // berfungsi untuk mereset formnya ketika sudah meng-save datanya
     }
   }

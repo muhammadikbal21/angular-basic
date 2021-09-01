@@ -7,10 +7,11 @@
     <app-todo-list
       [list]="todos"
       title="Judul Baru"
-      (selectedTodo)="onSelectedTodo($event)"
+      [(todo)]="selectedTodo"
     ></app-todo-list>
   </div>
   <div class="col">
-    <app-todo-form [edit]="todo" (todo)="saveTodo($event)"></app-todo-form>
+    <!-- contoh penerapan two way binding dengan getter setter property -->
+    <app-todo-form [(todo)]="formData"></app-todo-form>
   </div>
 </div>

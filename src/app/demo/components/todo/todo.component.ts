@@ -9,7 +9,7 @@ import { Todo } from '../../models/todo.interface';
 export class TodoComponent implements OnInit {
   // todos: any[] = []; // penggunaan tipe any kurang direkomendasikan, usahakan menggunakan interface atau class model yang mewakili, dan tidak bisa mencari suggest nya ketika menggunakan objectnya
   todos: Todo[] = []; // ini kita menggunakan interface agar dapat dicari property dari objectnya (suggest)
-  todo?: Todo;
+  todo!: Todo;
   pageTitle: string = 'Todo List Page';
   
   // todo = {
@@ -52,7 +52,7 @@ export class TodoComponent implements OnInit {
     this.todo = todo;
   }
 
-  saveTodo(todo: Todo): void {
+  private saveTodo(todo: Todo): void {
     if (todo.id) {
       // logic untuk mengedit data
       this.todos = this.todos.map((item) => { // 1. harus dimapping dulu array nya
@@ -68,5 +68,27 @@ export class TodoComponent implements OnInit {
       todo.id = this.todos.length + 1;
       this.todos = this.todos.concat([todo]);
     }
+  }
+
+  // getter property method, dapat diakses layaknya sebuah property class
+  // contoh: this.selectedTodo
+  get selectedTodo(): Todo {
+    return this.todo;
+  }
+
+  // setter property method dapat diassign layaknya sebuah variable
+  // contoh: this.selectedTodo = new Todo()
+  set selectedTodo(todo: Todo) {
+    console.log('selected: ', todo);
+    this.todo = todo;
+  }
+
+  // two way data binding bisa menggunakan getter dan setter property, one way tidak bisa
+  get formData(): Todo {
+    return this.todo;
+  }
+
+  set formData(todo: Todo) {
+    this.saveTodo(todo);
   }
 }
