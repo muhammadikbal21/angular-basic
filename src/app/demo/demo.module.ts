@@ -5,6 +5,8 @@ import { BankAccountComponent } from './components/bank-account/bank-account.com
 import { TodoComponent } from './components/todo/todo.component';
 import { DemoRoutingModule } from './demo-routing.module';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
+import { TodoFormComponent } from './components/todo-form/todo-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -13,10 +15,13 @@ import { TodoListComponent } from './components/todo-list/todo-list.component';
     DemoComponent,
     BankAccountComponent,
     TodoComponent,
-    TodoListComponent
+    TodoListComponent,
+    TodoFormComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     DemoRoutingModule
   ]
 })

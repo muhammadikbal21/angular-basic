@@ -1,6 +1,18 @@
 <h2>{{ pageTitle }}</h2>
-<!-- one way dari luar ditandai kurung siku ([todos]) dan properti biasa (title) seperti dibawah ini -->
-<!-- one way dari dalam ditandai kurung bulat (selectedTodo) seperti dibawah ini -->
-<!-- two way binding ditandai dengan kurung siku bulat [(toggleDone)] seperti dibawah ini -->
-<app-todo-list [list]="todos" title="Judul Baru" (selectedTodo)="onSelectedTodo($event)" [(toggleDone)]="todo"></app-todo-list>
-<p>Todo {{ todo.name }} {{ todo.isDone ? 'selesai' : 'belum selesai' }} </p>
+<div class="row">
+  <div class="col">
+    <!-- one way dari luar ditandai kurung siku ([todos]) dan properti biasa (title) seperti dibawah ini -->
+    <!-- one way dari dalam ditandai kurung bulat (selectedTodo) seperti dibawah ini -->
+    <!-- two way binding ditandai dengan kurung siku bulat [(toggleDone)] seperti dibawah ini -->
+    <app-todo-list
+      [list]="todos"
+      title="Judul Baru"
+      (selectedTodo)="onSelectedTodo($event)"
+      [(toggleDone)]="todo"
+    ></app-todo-list>
+    <p>Todo {{ todo.name }} {{ todo.isDone ? "selesai" : "belum selesai" }}</p>
+  </div>
+  <div class="col">
+    <app-todo-form></app-todo-form>
+  </div>
+</div>

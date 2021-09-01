@@ -1,0 +1,20 @@
+<h3>Todo Form</h3>
+<!-- formGroup, ngSubmit, formControlName adalah bawaan dari angular -->
+<form [formGroup]="form" (ngSubmit)="addTodo()">
+  <div class="input-group mb-3">
+    <div class="input-group-text">
+      <input
+        class="form-check-input mt-0"
+        type="checkbox"
+        formControlName="{{ field.IS_DONE }}"
+      />
+    </div>
+    <input
+      type="text"
+      class="form-control"
+      formControlName="{{ field.NAME }}"
+      placeholder="Add name"
+    />
+    <button class="btn btn-success" type="submit">Add</button>
+  </div>
+</form>
