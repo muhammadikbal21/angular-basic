@@ -11,6 +11,7 @@ export class TodoComponent implements OnInit {
   todos: Todo[] = []; // ini kita menggunakan interface agar dapat dicari property dari objectnya (suggest)
   todo!: Todo;
   pageTitle: string = 'Todo List Page';
+  private readonly storage = sessionStorage;
   
   // todo = {
   //   id: 4,
@@ -23,33 +24,45 @@ export class TodoComponent implements OnInit {
 
   // ini seperti componentDidMount pada reactjs, dipanggil setelah halaman dirender
   ngOnInit(): void {
-    this.todos = [
-      {
-        id: 1,
-        name: 'Makan',
-        isDone: false
-      },
-      {
-        id: 2,
-        name: 'Minum',
-        isDone: true
-      },
-      {
-        id: 3,
-        name: 'Tidur',
-        isDone: false
-      },
-      {
-        id: 4,
-        name: 'Mandi',
-        isDone: true
-      },
-    ]
+    const data = this.storage.getItem('todo');
+
+    if (!data) {
+      this.todos = [
+        {
+          id: 1,
+          name: 'Makan',
+          isDone: false
+        },
+        {
+          id: 2,
+          name: 'Minum',
+          isDone: true
+        },
+        {
+          id: 3,
+          name: 'Tidur',
+          isDone: false
+        },
+        {
+          id: 4,
+          name: 'Mandi',
+          isDone: true
+        },
+      ];
+      this.storage.setItem('todos', JSON.stringify(this.todos));
+    } else {
+      this.todos = JSON.parse(data as string); // keyword as berarti type casting
+    }
   }
 
   onSelectedTodo(todo: Todo) : void {
     console.log('todo terpilih : ', todo);
     this.todo = todo;
+  }
+
+  deleteTodo(todo: Todo): void {
+    this.todos = this.todos.filter((item) => item.id !== todo.id);
+    this.storage.setItem('todo', JSON.stringify(this.todos));
   }
 
   private saveTodo(todo: Todo): void {

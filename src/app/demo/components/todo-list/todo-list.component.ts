@@ -28,6 +28,8 @@ export class TodoListComponent implements OnInit {
   @Input() todo: Todo | undefined; // tanda seru bersifat not null
   @Output() todoChange : EventEmitter<Todo> = new EventEmitter<Todo>();
 
+  @Output() deletedTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
+
   constructor() { }
 
   ngOnInit(): void {
@@ -49,6 +51,18 @@ export class TodoListComponent implements OnInit {
     // this.todo?.id maksudnya ketika objectnya ada maka lanjut ke spesifik id nya,
     // jika objectnya tidak ada maka dia adalah undefined (false)
     return this.todo?.id === todoId ? ' active bg-warning border-warning text-dark' : ' ';
+  }
+
+  toggleDone(todo: Todo): void {
+    todo.isDone = !todo.isDone;
+  }
+
+  toggleStrike(isDone: boolean): string {
+    return isDone ? ' text-decoration-line-through' : '';
+  }
+
+  deleteTodo(todo: Todo): void {
+    this.deletedTodo.emit(todo);
   }
 
   // applyToggleDone() : void {

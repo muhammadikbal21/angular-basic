@@ -1,8 +1,16 @@
 <ng-container *ngIf="list.length > 0">
-  <ul class="list-group mb-5">
-    <button *ngFor="let item of list" class="list-group-item list-group-item-action{{ toggleActive(item.id) }}" (click)="selectTodo(item)">
-      <input type="checkbox" class="form-check-input me-1" [checked]="item.isDone"> <!-- [checked] bawaan dari html yang diubah dalam bentuk code angular -->
-      {{ item.name }}
-    </button>
-  </ul>
+  <h3>Your Task Today</h3>
+  <div class="list-group mb-5">
+    <div *ngFor="let item of list" class="list-group-item list-group-item-action{{ toggleActive(item.id) }}">
+      <div class="d-flex justify-content-start align-item-center">
+        <input 
+          class="form-check-input me-1 align-self-center"
+          (click)="toggleDone(item)" 
+          type="checkbox" 
+          [checked]="item.isDone"> <!-- [checked] bawaan dari html yang diubah dalam bentuk code angular -->
+        <div class="btn text-start flex-fill {{toggleStrike(item.isDone)}}" (click)="selectTodo(item)">{{item.name}}</div>
+        <div class="btn text-end" (click)="deleteTodo(item)"><i class="bi bi-trash text-danger"></i></div>
+      </div>
+    </div>
+  </div>
 </ng-container>
