@@ -35,6 +35,11 @@
   <div class="col mb-3">
     <h4>Ini adalah contoh Pipe: </h4>
     <!-- async adalah pipe bawaan dari angular, join adalah pipe buatan sendiri -->
+    <!-- 
+      - async pipe hanya untuk menghandle proses asynchronus
+      - data yang diterima bisa berupa Promise atau Observable
+      - output jika berbentuk object / array, perlu ditambahkan pipe untuk memproses outputnya, karena string interpolation terbatas pada primitive value (seperti string, number, dll)
+     -->
     <p>{{ asyncData | async | join }}</p>
   </div>
 </div>
