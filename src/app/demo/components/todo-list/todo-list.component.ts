@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AlertMessage } from 'src/app/shared/models/alert-message.model';
+import { SessionService } from 'src/app/shared/services/session.service';
 import { Todo } from '../../models/todo.interface';
 
 enum TodoListCss {
@@ -11,7 +13,7 @@ enum TodoListCss {
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss']
 })
-export class TodoListComponent implements OnInit {
+export class TodoListComponent implements OnInit, OnChanges {
 
   // One Way Data Binding
   // ini arahnya dari luar component ke dalam
@@ -38,9 +40,24 @@ export class TodoListComponent implements OnInit {
   // class='list-group-item list-group-item-action{{ toggleActive(item.id) }}'
   klass: typeof TodoListCss = TodoListCss;
 
-  constructor() { }
-
   asyncData!: Promise<string[]>;
+
+  message?: AlertMessage;
+
+  // dependecy injection umumnya diletakkan di parameter contructor
+  constructor(
+    private readonly session: SessionService
+  ) { }
+
+  // parameter changes adalah parameter default dari ngOnChanges, jika tidak diperlukan dapat dihapus
+  // ketika ada perubahan di todolist maka akan mentriger onChanges nya
+  ngOnChanges(changes: SimpleChanges): void {
+    const message: string = this.session.getFlash();
+
+    if (message) {
+      this.message = JSON.parse(message);
+    }
+  }
 
   ngOnInit(): void {
     // setelah 3 detik, asyncData akan diisi element array seperti dibawah ini

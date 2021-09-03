@@ -6,28 +6,43 @@ import { BsButtonDirective } from './directives/bs-button.directive';
 import { BsInputDirective } from './directives/bs-input.directive';
 import { TodoPipe } from './pipes/todo.pipe';
 import { JoinPipe } from './pipes/join.pipe';
+import { SessionService } from './services/session.service';
 
+const components = [
+  HeaderComponent,
+  FooterComponent,
+];
 
+const directives = [
+  BsButtonDirective,
+  BsInputDirective,
+];
+
+const pipes = [
+  TodoPipe,
+  JoinPipe
+];
+
+const services = [
+  SessionService
+]
 
 @NgModule({
   declarations: [
-    HeaderComponent,
-    FooterComponent,
-    BsButtonDirective,
-    BsInputDirective,
-    TodoPipe,
-    JoinPipe
+    ...components,
+    ...directives,
+    ...pipes
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    HeaderComponent,
-    FooterComponent,
-    BsButtonDirective,
-    BsInputDirective,
-    TodoPipe,
-    JoinPipe
+    ...components,
+    ...directives,
+    ...pipes
+  ],
+  providers: [
+    ...services
   ]
 })
 export class SharedModule { }

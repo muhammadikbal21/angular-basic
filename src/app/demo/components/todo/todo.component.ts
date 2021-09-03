@@ -24,7 +24,9 @@ export class TodoComponent implements OnInit {
 
   // ini seperti componentDidMount pada reactjs, dipanggil setelah halaman dirender
   ngOnInit(): void {
-    const data = this.storage.getItem('todo');
+    // key pada sessionStorage harus sesuai dan jangan sampai typo
+    // untuk menghindari typo bisa menggunakan enum
+    const data = this.storage.getItem('todos');
 
     if (!data) {
       this.todos = [

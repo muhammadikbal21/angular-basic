@@ -1,3 +1,9 @@
+<!-- disini kita aka mencetak Flash Message nya ketika membuat todolist baru -->
+<ng-container *ngIf="message">
+  <div class="alert {{ message.status ? 'alert-' + message.status : ''}}">
+    {{ message.text }}
+  </div>
+</ng-container>
 <ng-container *ngIf="list.length > 0">
   <h3>Your Task Today</h3>
   <div class="list-group mb-5">

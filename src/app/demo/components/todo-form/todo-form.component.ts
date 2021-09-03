@@ -5,6 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { AlertMessage } from 'src/app/shared/models/alert-message.model';
+import { SessionService } from 'src/app/shared/services/session.service';
 import { TodoField } from '../../models/todo-field.enum';
 import { Todo } from '../../models/todo.interface';
 
@@ -20,7 +22,10 @@ export class TodoFormComponent implements OnInit, OnChanges {
   form!: FormGroup;
   field: typeof TodoField = TodoField;
 
-  constructor() {}
+  // dependecy injection umumnya diletakkan di parameter contructor
+  constructor(
+    private readonly session: SessionService
+  ) {}
 
   // ini adalah lifecycle nya angular, ketika ada perubahan dia akan mengupdate nilainya
   ngOnChanges(): void {
@@ -53,8 +58,13 @@ export class TodoFormComponent implements OnInit, OnChanges {
   addTodo(): void {
     if (this.form.valid) {
       console.log('value : ', this.form.value);
-      this.todoChange.emit(this.form.value);
+      const todo: Todo = this.form.value;
+      const message: AlertMessage = {
+        status: 'success', text: `Todo ${todo.name} saved`
+      }
+      this.todoChange.emit(todo);
       this.form.reset(); // berfungsi untuk mereset formnya ketika sudah meng-save datanya
+      this.session.setFlash(JSON.stringify(message)); // disini kita meng-set flash message nya ketika berhasil membuat todolist baru
     }
   }
 
