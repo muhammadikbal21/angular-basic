@@ -8,7 +8,12 @@
           (click)="toggleDone(item)" 
           type="checkbox" 
           [checked]="item.isDone"> <!-- [checked] bawaan dari html yang diubah dalam bentuk code angular -->
-        <div class="btn text-start flex-fill{{toggleStrike(item.isDone)}}" (click)="selectTodo(item)">{{item.name}}</div>
+        <div class="btn text-start flex-fill{{toggleStrike(item.isDone)}}" (click)="selectTodo(item)">
+          <!-- titlecase (punya nya angular) dan todo (buatan sendiri) adalah pipe -->
+          <!-- pipe umumnya digunakan di dalam string interpolation -->
+          <!-- di string interpolation, pipe dapat digunakan lebih 1 -->
+          {{ item.name | titlecase | todo: 'TASK = ' }}
+        </div>
         <div class="btn text-end" (click)="deleteTodo(item)"><i class="bi bi-trash-fill"></i></div>
       </div>
     </div>
@@ -24,5 +29,12 @@
   <div class="col mb-3">
     <input type="text" value="Input with Directive" appBsInput size="sm" readonly plainText>
     <input type="text" placeholder="Input" class="form-control my-2">
+  </div>
+</div>
+<div class="row">
+  <div class="col mb-3">
+    <h4>Ini adalah contoh Pipe: </h4>
+    <!-- async adalah pipe bawaan dari angular, join adalah pipe buatan sendiri -->
+    <p>{{ asyncData | async | join }}</p>
   </div>
 </div>

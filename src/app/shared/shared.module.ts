@@ -4,6 +4,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BsButtonDirective } from './directives/bs-button.directive';
 import { BsInputDirective } from './directives/bs-input.directive';
+import { TodoPipe } from './pipes/todo.pipe';
+import { JoinPipe } from './pipes/join.pipe';
 
 
 
@@ -12,7 +14,9 @@ import { BsInputDirective } from './directives/bs-input.directive';
     HeaderComponent,
     FooterComponent,
     BsButtonDirective,
-    BsInputDirective
+    BsInputDirective,
+    TodoPipe,
+    JoinPipe
   ],
   imports: [
     CommonModule
@@ -21,7 +25,9 @@ import { BsInputDirective } from './directives/bs-input.directive';
     HeaderComponent,
     FooterComponent,
     BsButtonDirective,
-    BsInputDirective
+    BsInputDirective,
+    TodoPipe,
+    JoinPipe
   ]
 })
 export class SharedModule { }

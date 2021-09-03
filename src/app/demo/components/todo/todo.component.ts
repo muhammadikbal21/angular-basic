@@ -81,6 +81,8 @@ export class TodoComponent implements OnInit {
       todo.id = this.todos.length + 1;
       this.todos = this.todos.concat([todo]);
     }
+
+    this.storage.setItem('todos', JSON.stringify(this.todos)); // meng-set storage nya agar tetap ada objectnya ketika baru ditambah todolistnya
   }
 
   // getter property method, dapat diakses layaknya sebuah property class

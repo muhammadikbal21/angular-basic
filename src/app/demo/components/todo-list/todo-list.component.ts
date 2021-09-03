@@ -40,7 +40,13 @@ export class TodoListComponent implements OnInit {
 
   constructor() { }
 
+  asyncData!: Promise<string[]>;
+
   ngOnInit(): void {
+    // setelah 3 detik, asyncData akan diisi element array seperti dibawah ini
+    setTimeout(() => {
+      this.asyncData = Promise.resolve(['sample', 'data', 'array']);
+    }, 3_000);
   }
 
   // ini yang akan dipanggil di html
