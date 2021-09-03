@@ -1,16 +1,28 @@
 <ng-container *ngIf="list.length > 0">
   <h3>Your Task Today</h3>
   <div class="list-group mb-5">
-    <div *ngFor="let item of list" class="list-group-item list-group-item-action{{ toggleActive(item.id) }}">
-      <div class="d-flex justify-content-start align-item-center">
+    <div *ngFor="let item of list" [ngClass]="cssClass(item.id)">
+      <div class="d-flex justify-content-start align-items-center">
         <input 
-          class="form-check-input me-1 align-self-center"
+          class="form-check-input me-1"
           (click)="toggleDone(item)" 
           type="checkbox" 
           [checked]="item.isDone"> <!-- [checked] bawaan dari html yang diubah dalam bentuk code angular -->
-        <div class="btn text-start flex-fill {{toggleStrike(item.isDone)}}" (click)="selectTodo(item)">{{item.name}}</div>
-        <div class="btn text-end" (click)="deleteTodo(item)"><i class="bi bi-trash text-danger"></i></div>
+        <div class="btn text-start flex-fill{{toggleStrike(item.isDone)}}" (click)="selectTodo(item)">{{item.name}}</div>
+        <div class="btn text-end" (click)="deleteTodo(item)"><i class="bi bi-trash-fill"></i></div>
       </div>
     </div>
   </div>
 </ng-container>
+<div class="row">
+  <div class="col mb-3">
+    <button appBsButton color="danger" size="lg" disabled>Button with Directive</button>
+    <button class="btn btn-lg btn-primary">Button</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col mb-3">
+    <input type="text" value="Input with Directive" appBsInput size="sm" readonly plainText>
+    <input type="text" placeholder="Input" class="form-control my-2">
+  </div>
+</div>

@@ -1,6 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Todo } from '../../models/todo.interface';
 
+enum TodoListCss {
+  DEFAULT = 'list-group-item list-group-item-action',
+  DYNAMIC = 'active bg-warning border-warning text-dark',
+}
+
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
@@ -30,6 +35,9 @@ export class TodoListComponent implements OnInit {
 
   @Output() deletedTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
 
+  // class='list-group-item list-group-item-action{{ toggleActive(item.id) }}'
+  klass: typeof TodoListCss = TodoListCss;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -44,6 +52,20 @@ export class TodoListComponent implements OnInit {
     } else {
       this.todo = undefined;
       this.todoChange.emit();
+    }
+  }
+
+  /**
+   * ['nama-class-1', 'nama-class-2']
+   * {
+   *  'nama-class-1 nama-class-2': true (class-nya ditampilkan),
+   *  'nama-class-3 nama-class-4': false (class-nya tidak ditampilkan),
+   * }
+   */
+  cssClass(id: number): any {
+    return {
+      [TodoListCss.DEFAULT]: true,
+      [TodoListCss.DYNAMIC]: this.todo?.id === id
     }
   }
 
