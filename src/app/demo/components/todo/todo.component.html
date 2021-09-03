@@ -4,10 +4,8 @@
     <!-- one way dari dalam ditandai kurung bulat (selectedTodo) seperti dibawah ini -->
     <!-- two way binding ditandai dengan kurung siku bulat [(toggleDone)] seperti dibawah ini -->
     <app-todo-list
-      [list]="todos"
       title="Judul Baru"
       [(todo)]="selectedTodo"
-      (deletedTodo)="deleteTodo($event)"
     ></app-todo-list>
   </div>
   <div class="col">

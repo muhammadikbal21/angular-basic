@@ -4,7 +4,8 @@
     {{ message.text }}
   </div>
 </ng-container>
-<ng-container *ngIf="list.length > 0">
+<!-- membuat loading ketika array nya masih kosong  -->
+<ng-container *ngIf="list.length > 0; else emptyList">
   <h3>Your Task Today</h3>
   <div class="list-group mb-5">
     <div *ngFor="let item of list" [ngClass]="cssClass(item.id)">
@@ -25,6 +26,10 @@
     </div>
   </div>
 </ng-container>
+<!-- loading akan dipanggil ketika array nya masih kosong -->
+<ng-template #emptyList>
+  <div class="alert alert-info">Loading Tasks...</div>
+</ng-template>
 <div class="row">
   <div class="col mb-3">
     <button appBsButton color="danger" size="lg" disabled>Button with Directive</button>

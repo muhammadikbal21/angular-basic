@@ -8,6 +8,7 @@ import { TodoListComponent } from './components/todo-list/todo-list.component';
 import { TodoFormComponent } from './components/todo-form/todo-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { TodoService } from './services/todo.service';
 
 
 
@@ -25,6 +26,9 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     DemoRoutingModule,
     SharedModule
+  ],
+  providers: [
+    TodoService
   ]
 })
 export class DemoModule { }

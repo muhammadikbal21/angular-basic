@@ -9,6 +9,7 @@ import { AlertMessage } from 'src/app/shared/models/alert-message.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { TodoField } from '../../models/todo-field.enum';
 import { Todo } from '../../models/todo.interface';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-todo-form',
@@ -24,7 +25,8 @@ export class TodoFormComponent implements OnInit, OnChanges {
 
   // dependecy injection umumnya diletakkan di parameter contructor
   constructor(
-    private readonly session: SessionService
+    private readonly session: SessionService,
+    private readonly todoService: TodoService
   ) {}
 
   // ini adalah lifecycle nya angular, ketika ada perubahan dia akan mengupdate nilainya
@@ -61,10 +63,19 @@ export class TodoFormComponent implements OnInit, OnChanges {
       const todo: Todo = this.form.value;
       const message: AlertMessage = {
         status: 'success', text: `Todo ${todo.name} saved`
-      }
-      this.todoChange.emit(todo);
-      this.form.reset(); // berfungsi untuk mereset formnya ketika sudah meng-save datanya
-      this.session.setFlash(JSON.stringify(message)); // disini kita meng-set flash message nya ketika berhasil membuat todolist baru
+      };
+
+      this.todoService.saveTodo(todo)
+        .subscribe(() => {
+          this.form.reset();
+          this.session.setFlash(JSON.stringify(message));
+        },
+        (error) => {
+          this.session.setFlash(JSON.stringify({
+            status: 'danger',
+            text: error.message
+          }))
+        })
     }
   }
 

@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { AlertMessage } from 'src/app/shared/models/alert-message.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { Todo } from '../../models/todo.interface';
+import { TodoService } from '../../services/todo.service';
+import { delay } from 'rxjs/operators'
 
 enum TodoListCss {
   DEFAULT = 'list-group-item list-group-item-action',
@@ -17,11 +19,11 @@ export class TodoListComponent implements OnInit, OnChanges {
 
   // One Way Data Binding
   // ini arahnya dari luar component ke dalam
-  @Input() list: Todo[] = [];
   @Input() title!: string; // tanda seru bersifat not null
 
   // ini arahnya dari dalam component ke luar
   @Output() selectedTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
+  @Output() deletedTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
 
   // // // // // // // // // // // // // // //
 
@@ -29,13 +31,9 @@ export class TodoListComponent implements OnInit, OnChanges {
   // mempunyai dua arah yaitu input dan output
   // harus ada sepasang input dan output decorator
   // output decorator property harus ada suffix change, contoh : toggleDoneChange
-  // @Input() toggleDone! : Todo; // tanda seru bersifat not null
-  // @Output() toggleDoneChange : EventEmitter<Todo> = new EventEmitter<Todo>();
-  
-  @Input() todo: Todo | undefined; // tanda seru bersifat not null
+  @Input() todo?: Todo | undefined; // tanda seru bersifat not null
   @Output() todoChange : EventEmitter<Todo> = new EventEmitter<Todo>();
 
-  @Output() deletedTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
 
   // class='list-group-item list-group-item-action{{ toggleActive(item.id) }}'
   klass: typeof TodoListCss = TodoListCss;
@@ -44,9 +42,12 @@ export class TodoListComponent implements OnInit, OnChanges {
 
   message?: AlertMessage;
 
+  list: Todo[] = [];
+
   // dependecy injection umumnya diletakkan di parameter contructor
   constructor(
-    private readonly session: SessionService
+    private readonly session: SessionService,
+    private readonly todoService: TodoService
   ) { }
 
   // parameter changes adalah parameter default dari ngOnChanges, jika tidak diperlukan dapat dihapus
@@ -64,6 +65,52 @@ export class TodoListComponent implements OnInit, OnChanges {
     setTimeout(() => {
       this.asyncData = Promise.resolve(['sample', 'data', 'array']);
     }, 3_000);
+
+    this.todoService.notify()
+      .subscribe((reload: boolean) => {
+        if (reload) {
+          this.list = [];
+          this.todoService.findAll()
+            .pipe(delay(3_000))
+            .subscribe((todos: Todo[]) => {
+              this.list = todos;
+            },
+            (error) => {
+              this.message = {
+                status: 'danger',
+                text: error.message
+              }
+            })
+        }
+      })
+
+    this.todoService.findAll()
+      .pipe(delay(3_000)) // import { delay } from 'rxjs/operators
+      .subscribe((todos: Todo[]) => {
+        this.list = todos;
+      },
+      (error) => {
+        this.message = {
+          status: 'danger',
+          text: error.message
+        };
+      })
+  }
+
+  deleteTodo(todo: Todo): void {
+    this.todoService.delete(todo.id)
+      .subscribe(() => {
+        this.message = {
+          status: 'success',
+          text: `Data todo ${todo.name} deleted`
+        }
+      },
+      (error) => {
+        this.message = {
+          status: 'danger',
+          text: error.message
+        };
+      })
   }
 
   // ini yang akan dipanggil di html
@@ -105,16 +152,5 @@ export class TodoListComponent implements OnInit, OnChanges {
   toggleStrike(isDone: boolean): string {
     return isDone ? ' text-decoration-line-through' : '';
   }
-
-  deleteTodo(todo: Todo): void {
-    this.deletedTodo.emit(todo);
-  }
-
-  // applyToggleDone() : void {
-  //   this.toggleDone.isDone = !this.toggleDone.isDone;
-  //   this.toggleDoneChange.emit(this.toggleDone);
-  //   console.log('isDone: ', this.toggleDone.isDone);
-    
-  // }
 
 }
