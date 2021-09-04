@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { delay } from 'rxjs/operators';
 import { AlertMessage } from 'src/app/shared/models/alert-message.model';
 import { SessionService } from 'src/app/shared/services/session.service';
@@ -10,7 +10,7 @@ import { GuestBookService } from '../../services/guest-book.service';
   templateUrl: './guest-book-list.component.html',
   styleUrls: ['./guest-book-list.component.scss']
 })
-export class GuestBookListComponent implements OnInit {
+export class GuestBookListComponent implements OnInit, OnChanges {
   @Input() guestBook?: GuestBook | undefined;
   @Output() guestBookChange: EventEmitter<GuestBook> = new EventEmitter<GuestBook>();
 
@@ -22,6 +22,14 @@ export class GuestBookListComponent implements OnInit {
     private readonly guestBookService: GuestBookService,
     private readonly session: SessionService
   ) { }
+
+  ngOnChanges(): void {
+    const message: string = this.session.getFlash();
+
+    if (message) {
+      this.message = JSON.parse(message); 
+    }
+  }
 
   ngOnInit(): void {
     this.guestBookService.notify()
@@ -64,6 +72,22 @@ export class GuestBookListComponent implements OnInit {
       this.guestBook = undefined;
       this.guestBookChange.emit();
     }
+  }
+
+  deleteGuestBook(guestBook: GuestBook): void {
+    this.guestBookService.delete(guestBook.id)
+    .subscribe(() => {
+        this.message = {
+          status: 'success',
+          text: `Data guest book ${guestBook.name} deleted`
+        }
+      },
+      (error) => {
+        this.message = {
+          status: 'danger',
+          text: error.message
+        };
+      })
   }
 
 }

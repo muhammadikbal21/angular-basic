@@ -25,4 +25,24 @@ export class GuestBookService {
       }
     })
   }
+
+  delete(id: number): Observable<void> {
+    return new Observable<void>((observer: Observer<void>) => {
+      const guestBookValue: string = this.storage.getItem(GUEST_BOOK) as string;
+  
+      try {
+        let guestBooks: GuestBook[] = guestBookValue ? JSON.parse(guestBookValue) : [];
+
+        guestBooks = guestBooks.filter((guestBook) => guestBook.id !== id);
+  
+        this.storage.setItem(GUEST_BOOK, JSON.stringify(guestBooks));
+
+        observer.next();
+        this.guestBookSubject.next(true);
+      } catch(error: any) {
+        observer.error(new Error(`Unable to delete guest book., ${error.message}`));
+      }
+    })
+
+  }
 }
