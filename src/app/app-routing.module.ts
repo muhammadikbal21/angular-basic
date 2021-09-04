@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ContactMeComponent } from './contact-me/contact-me.component';
 import { ResumeComponent } from './resume/resume.component';
 
 const routes: Routes = [
@@ -13,6 +14,11 @@ const routes: Routes = [
     path: 'demo',
     loadChildren: () => import('./demo/demo.module')
       .then((module) => module.DemoModule) // ini dinamakan lazy load module
+  },
+  {
+    path: 'contact-me',
+    pathMatch: 'full',
+    component: ContactMeComponent
   }
 ];
 

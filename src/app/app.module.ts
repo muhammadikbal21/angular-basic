@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ContactMeModule } from './contact-me/contact-me.module';
 import { PagesModule } from './pages/pages.module';
 import { ResumeModule } from './resume/resume.module';
 import { SharedModule } from './shared/shared.module';
@@ -18,7 +19,8 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule, // setelah membuat route di app-routing, import module app-routing nya disini
     PagesModule,
     ResumeModule,
-    SharedModule
+    SharedModule,
+    ContactMeModule
   ],
   // untuk service yang akan merequest dari backend
   providers: [],
