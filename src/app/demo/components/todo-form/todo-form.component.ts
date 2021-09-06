@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
 import { AlertMessage } from 'src/app/shared/models/alert-message.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { TodoField } from '../../models/todo-field.enum';
@@ -26,7 +27,8 @@ export class TodoFormComponent implements OnInit, OnChanges {
   // dependecy injection umumnya diletakkan di parameter contructor
   constructor(
     private readonly session: SessionService,
-    private readonly todoService: TodoService
+    private readonly todoService: TodoService,
+    private readonly activatedRoute: ActivatedRoute
   ) {}
 
   // ini adalah lifecycle nya angular, ketika ada perubahan dia akan mengupdate nilainya
@@ -36,6 +38,24 @@ export class TodoFormComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.buildForm();
+
+    // query params berbentuk string
+    // keyword as untuk casting hanya diperlukan ketika kita sudah yakin dengan tipe datanya, namun tidak perlu konversi tipe pada datanya
+    // penggunaan casting yang sebenarnya diperlukan ketika kalian menemukan data yang tipe nya any
+    // casting yang sebenarnya apa?
+    // - penggunaan keyword + (konversi ke number)
+    // - penggunaan backtick ` (konversi ke string)
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      if (params.id) {
+        this.todoService.findById(+params.id).subscribe((todo: Todo) => { // tanda + mengubah (parsing) params.id menjadi number
+          console.log('todo', todo);
+          this.todo = todo;
+          this.setFormValues();
+        }, (error) => {
+          console.error(error);
+        })
+      }
+    })
   }
 
   buildForm(): void {
