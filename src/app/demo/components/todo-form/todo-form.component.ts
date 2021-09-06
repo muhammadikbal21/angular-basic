@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { AlertMessage } from 'src/app/shared/models/alert-message.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { TodoField } from '../../models/todo-field.enum';
@@ -49,17 +49,31 @@ export class TodoFormComponent implements OnInit, OnChanges {
     // - penggunaan backtick ` (konversi ke string)
 
     // gunakan queryParams pada saat url hanya mengandung query string
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
-      console.log('activatedRoute.queryParams', params); // contoh: todo?isdone=true
-      if (params.id) {
-        this.todoService.findById(+params.id).subscribe((todo: Todo) => { // tanda + mengubah (parsing) params.id menjadi number
-          console.log('todo', todo);
-          this.todo = todo;
-          this.setFormValues();
-        }, (error) => {
-          console.error(error);
-        })
-      }
+    // this.activatedRoute.queryParams.subscribe((params: Params) => {
+    //   console.log('activatedRoute.queryParams', params); // contoh: todo?isdone=true
+    //   if (params.id) {
+    //     this.todoService.findById(+params.id).subscribe((todo: Todo) => { // tanda + mengubah (parsing) params.id menjadi number
+    //       console.log('todo', todo);
+    //       this.todo = todo;
+    //       this.setFormValues();
+    //     }, (error) => {
+    //       console.error(error);
+    //     })
+    //   }
+    // })
+
+    this.activatedRoute.queryParams.pipe(
+      map((params: Params) => {
+        return params.id ? +params.id : 0
+      }),
+      switchMap((id: number) => {
+        return this.todoService.findById(id)
+      })
+    ).subscribe((todo: Todo) => {
+      this.todo = todo;
+      this.setFormValues();
+    }, (error) => {
+      console.error(error);
     })
 
     // gunakan queryParams pada saat url hanya mengandung path variable yang sudah didefinisikan di route module
