@@ -4,5 +4,5 @@ export interface GuestBook {
     phone: string;
     email: string;
     note: string;
-    // date: Date;
+    // date: string;
 }

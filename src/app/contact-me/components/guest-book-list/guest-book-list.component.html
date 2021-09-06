@@ -20,15 +20,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of list" (click)="selectGuestBook(item)">
+      <tr *ngFor="let item of list">
         <th scope="row">{{ item.id }}</th>
         <td>{{ item.name }}</td>
         <td>{{ item.phone }}</td>
         <td>{{ item.email }}</td>
         <td>{{ item.note }}</td>
-        <td>Jumat, 3-Sep-2021</td>
+        <td>{{ dateTime | date: 'EEEE, d-LLL-yyyy' }}</td>
         <td class="d-flex justify-content-center">
-          <div class="btn btn-warning">
+          <div class="btn btn-warning" (click)="selectGuestBook(item)">
             <i class="bi bi-pencil-square"></i>
           </div>
           <span class="mx-1"></span>

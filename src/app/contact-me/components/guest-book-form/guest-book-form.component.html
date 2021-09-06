@@ -1,48 +1,42 @@
 <h4 class="text-center mb-3 mb-lg-4">{{ title }}</h4>
-<form class="px-lg-5 mx-lg-5">
+<form class="px-lg-5 mx-lg-5" [formGroup]="form" (ngSubmit)="addGuestBook()">
   <div class="mb-3">
-    <label for="exampleFormControlInput1" class="form-label"
-      >Nama Lengkap</label
-    >
-    <input
-      type="text"
-      class="form-control"
-      id="exampleFormControlInput1"
-      placeholder="Nama Lengkap"
-    />
+    <div class="mb-3">
+      <label class="form-label">Nama Lengkap</label>
+      <input
+        type="text"
+        class="form-control {{ isValid(field.NAME) }}"
+        formControlName="{{ field.NAME }}"
+        placeholder="Nama Lengkap"
+      />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Nomor Handphone</label>
+      <input
+        type="number"
+        class="form-control {{ isValid(field.PHONE) }}"
+        formControlName="{{ field.PHONE }}"
+        placeholder="Nomor Handphone"
+      />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control {{ isValid(field.EMAIL) }}"
+        formControlName="{{ field.EMAIL }}"
+        placeholder="name@gmail.com"
+      />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Pesan & Kesan</label>
+      <textarea
+        class="form-control {{ isValid(field.NOTE) }}"
+        formControlName="{{ field.NOTE }}"
+        placeholder="Pesan & Kesan"
+        rows="5"
+      ></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
   </div>
-  <div class="mb-3">
-    <label for="exampleFormControlInput1" class="form-label"
-      >Nomor Handphone</label
-    >
-    <input
-      type="number"
-      class="form-control"
-      id="exampleFormControlInput1"
-      placeholder="Nomor Handphone"
-    />
-  </div>
-  <div class="mb-3">
-    <label for="exampleFormControlInput1" class="form-label"
-      >Email</label
-    >
-    <input
-      type="email"
-      class="form-control"
-      id="exampleFormControlInput1"
-      placeholder="name@gmail.com"
-    />
-  </div>
-  <div class="mb-3">
-    <label for="exampleFormControlTextarea1" class="form-label"
-      >Pesan & Kesan</label
-    >
-    <textarea
-      class="form-control"
-      id="exampleFormControlTextarea1"
-      placeholder="Pesan & Kesan"
-      rows="3"
-    ></textarea>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
 </form>

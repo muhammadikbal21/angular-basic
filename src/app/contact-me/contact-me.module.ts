@@ -4,6 +4,7 @@ import { ContactMeComponent } from './contact-me.component';
 import { GuestBookFormComponent } from './components/guest-book-form/guest-book-form.component';
 import { GuestBookListComponent } from './components/guest-book-list/guest-book-list.component';
 import { GuestBookService } from './services/guest-book.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -14,7 +15,9 @@ import { GuestBookService } from './services/guest-book.service';
     GuestBookListComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     ContactMeComponent

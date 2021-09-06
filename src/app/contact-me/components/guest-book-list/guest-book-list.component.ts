@@ -17,6 +17,7 @@ export class GuestBookListComponent implements OnInit, OnChanges {
   title: string = 'Guest Book List';
   list: GuestBook[] = [];
   message?: AlertMessage;
+  dateTime!: Date;
 
   constructor(
     private readonly guestBookService: GuestBookService,
@@ -32,6 +33,7 @@ export class GuestBookListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.dateTime = new Date()
     this.guestBookService.notify()
       .subscribe((reload: boolean) => {
         if (reload) {

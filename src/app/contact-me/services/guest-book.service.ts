@@ -45,4 +45,38 @@ export class GuestBookService {
     })
 
   }
+
+  save(guestBook: GuestBook): Observable<GuestBook> {
+    return new Observable<GuestBook>((observer: Observer<GuestBook>) => {
+      const guestBookValue: string = this.storage.getItem(GUEST_BOOK) as string;
+  
+      try {
+        let guestBooks: GuestBook[] = guestBookValue ? JSON.parse(guestBookValue) : [];
+
+        if(guestBook.id) {
+          // UPDATE TODO
+          guestBooks = guestBooks.map((item) => {
+            if (item.id === guestBook.id) {
+              item = {
+                ...item,
+                ...guestBook
+              };
+            }
+            return item;
+          });
+        } else {
+          // ADD TODO
+          guestBook.id = guestBooks.length + 1;
+          guestBooks = guestBooks.concat([guestBook]);
+        }
+
+        this.storage.setItem(GUEST_BOOK, JSON.stringify(guestBooks));
+
+        observer.next(guestBook);
+        this.guestBookSubject.next(true);
+      } catch(error: any) {
+        observer.error(new Error(`Unable to save guest book., ${error.message}`));
+      }
+    })
+  }
 }
