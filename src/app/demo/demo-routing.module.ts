@@ -16,6 +16,10 @@ const routes: Routes = [
         {
             path: 'todo',
             component: TodoComponent
+        },
+        {
+            path: 'todo/:id', // route path dengan parameter id (path variable). contoh: todo/1
+            component: TodoComponent
         }
     ]
   }

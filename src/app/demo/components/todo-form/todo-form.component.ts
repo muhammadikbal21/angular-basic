@@ -6,6 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AlertMessage } from 'src/app/shared/models/alert-message.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { TodoField } from '../../models/todo-field.enum';
@@ -45,7 +47,10 @@ export class TodoFormComponent implements OnInit, OnChanges {
     // casting yang sebenarnya apa?
     // - penggunaan keyword + (konversi ke number)
     // - penggunaan backtick ` (konversi ke string)
+
+    // gunakan queryParams pada saat url hanya mengandung query string
     this.activatedRoute.queryParams.subscribe((params: Params) => {
+      console.log('activatedRoute.queryParams', params); // contoh: todo?isdone=true
       if (params.id) {
         this.todoService.findById(+params.id).subscribe((todo: Todo) => { // tanda + mengubah (parsing) params.id menjadi number
           console.log('todo', todo);
@@ -55,6 +60,29 @@ export class TodoFormComponent implements OnInit, OnChanges {
           console.error(error);
         })
       }
+    })
+
+    // gunakan queryParams pada saat url hanya mengandung path variable yang sudah didefinisikan di route module
+    this.activatedRoute.params.subscribe((params: Params) => {
+      console.log('activatedRoute.params', params); // contoh: todo/1
+    })
+
+    // gunakan combineLatest pada saat url mengandung query string dan path variable, dan keduanya sama-sama digunakan code
+    // menggabungkan activatedRoute, baik params maupun queryParams
+    combineLatest([
+      this.activatedRoute.params,
+      this.activatedRoute.queryParams
+    ])
+    .pipe(
+      map(([ params, queryParams ]) => {
+        return {
+          ...params,
+          ...queryParams
+        }
+      })
+    )
+    .subscribe((params) => {
+      console.log('all params', params);
     })
   }
 
