@@ -15,12 +15,12 @@
           (click)="toggleDone(item)" 
           type="checkbox" 
           [checked]="item.isDone"> <!-- [checked] bawaan dari html yang diubah dalam bentuk code angular -->
-        <div class="btn text-start flex-fill{{toggleStrike(item.isDone)}}" (click)="selectTodo(item)">
+        <a class="btn text-decoration-none text-start flex-fill{{toggleStrike(item.isDone)}}" routerLink="." [queryParams]="{id: item.id}">
           <!-- titlecase (punya nya angular) dan todo (buatan sendiri) adalah pipe -->
           <!-- pipe umumnya digunakan di dalam string interpolation -->
           <!-- di string interpolation, pipe dapat digunakan lebih 1 -->
           {{ item.name | titlecase | todo: 'TASK = ' }}
-        </div>
+        </a>
         <div class="btn text-end" (click)="deleteTodo(item)"><i class="bi bi-trash-fill"></i></div>
       </div>
     </div>

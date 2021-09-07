@@ -3,7 +3,8 @@ import { AlertMessage } from 'src/app/shared/models/alert-message.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { Todo } from '../../models/todo.interface';
 import { TodoService } from '../../services/todo.service';
-import { delay } from 'rxjs/operators'
+import { delay, map, switchMap } from 'rxjs/operators'
+import { ActivatedRoute, Params } from '@angular/router';
 
 enum TodoListCss {
   DEFAULT = 'list-group-item list-group-item-action',
@@ -31,8 +32,8 @@ export class TodoListComponent implements OnInit, OnChanges {
   // mempunyai dua arah yaitu input dan output
   // harus ada sepasang input dan output decorator
   // output decorator property harus ada suffix change, contoh : toggleDoneChange
-  @Input() todo?: Todo | undefined; // tanda seru bersifat not null
-  @Output() todoChange : EventEmitter<Todo> = new EventEmitter<Todo>();
+  // @Input() todo?: Todo | undefined; // tanda seru bersifat not null
+  // @Output() todoChange : EventEmitter<Todo> = new EventEmitter<Todo>();
 
 
   // class='list-group-item list-group-item-action{{ toggleActive(item.id) }}'
@@ -44,10 +45,15 @@ export class TodoListComponent implements OnInit, OnChanges {
 
   list: Todo[] = [];
 
+  todoId?: number;
+
+  todo?: Todo
+
   // dependecy injection umumnya diletakkan di parameter contructor
   constructor(
     private readonly session: SessionService,
-    private readonly todoService: TodoService
+    private readonly todoService: TodoService,
+    private readonly activatedRoute: ActivatedRoute
   ) { }
 
   // parameter changes adalah parameter default dari ngOnChanges, jika tidak diperlukan dapat dihapus
@@ -70,30 +76,31 @@ export class TodoListComponent implements OnInit, OnChanges {
       .subscribe((reload: boolean) => {
         if (reload) {
           this.list = [];
-          this.todoService.findAll()
-            .pipe(delay(3_000))
-            .subscribe((todos: Todo[]) => {
-              this.list = todos;
-            },
-            (error) => {
-              this.message = {
-                status: 'danger',
-                text: error.message
-              }
-            })
+          this.loadList();
         }
       })
 
-    this.todoService.findAll()
-      .pipe(delay(3_000)) // import { delay } from 'rxjs/operators
-      .subscribe((todos: Todo[]) => {
+    this.loadList();
+  }
+
+  loadList(): void {
+    this.activatedRoute.queryParams
+      .pipe(
+        switchMap((params) => {
+          this.todoId = params.id ? +params.id : 0;
+          return this.todoService.findAll()
+        }),
+        map((todos: Todo[]) => {
+          this.todo = todos.find((todo) => todo.id === this.todoId);
+          return todos;
+        })
+      ).subscribe((todos: Todo[]) => {
         this.list = todos;
-      },
-      (error) => {
+      }, (error) => {
         this.message = {
           status: 'danger',
           text: error.message
-        };
+        }
       })
   }
 
@@ -114,16 +121,16 @@ export class TodoListComponent implements OnInit, OnChanges {
   }
 
   // ini yang akan dipanggil di html
-  selectTodo(todo: Todo) : void {
-    if (!this.todo || (this.todo && this.todo.id !== todo.id)) {
-      console.log('selected : ', todo);
-      this.todo = todo;
-      this.todoChange.emit(todo); // emit berfungsi agar method ini dapat digunakan ke luar
-    } else {
-      this.todo = undefined;
-      this.todoChange.emit();
-    }
-  }
+  // selectTodo(todo: Todo) : void {
+  //   if (!this.todo || (this.todo && this.todo.id !== todo.id)) {
+  //     console.log('selected : ', todo);
+  //     this.todo = todo;
+  //     this.todoChange.emit(todo); // emit berfungsi agar method ini dapat digunakan ke luar
+  //   } else {
+  //     this.todo = undefined;
+  //     this.todoChange.emit();
+  //   }
+  // }
 
   /**
    * ['nama-class-1', 'nama-class-2']

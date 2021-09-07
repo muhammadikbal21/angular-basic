@@ -63,9 +63,11 @@ export class TodoFormComponent implements OnInit, OnChanges {
     // })
 
     this.activatedRoute.queryParams.pipe(
+      // mengubah route params menjadi number
       map((params: Params) => {
         return params.id ? +params.id : 0
       }),
+      // setelah itu ditangkap route params number tadi kesini
       switchMap((id: number) => {
         return this.todoService.findById(id)
       })
