@@ -6,7 +6,15 @@
 export const environment = {
   production: false,
   baseUrl: '/',
-  appName: 'My First Application.'
+  appName: 'My First Application.',
+  apiUrl: '/api',
+  apiEndpoints: {
+    GET_ALL_TODOS: 'todos',
+    GET_SINGLE_TODOS: 'todos/:id',
+    POST_TODOS: 'todos',
+    PUT_TODOS: 'todos/:id',
+    DELETE_TODOS: 'todos/:id'
+  }
 };
 
 /*

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer, Subject } from 'rxjs';
-import { SessionService } from 'src/app/shared/services/session.service';
+import { HttpClientService } from '../../shared/services/http-client.service';
 import { Todo } from '../models/todo.interface';
 
 const TODO_LIST: string = 'todos';
@@ -10,17 +10,21 @@ export class TodoService {
   private readonly storage: Storage = sessionStorage;
   private readonly todoSubject: Subject<boolean> = new Subject<boolean>();
 
-  findAll(): Observable<Todo[]> {
-    return new Observable<Todo[]>((observer: Observer<Todo[]>) => {
-      const todoValue: string = this.storage.getItem(TODO_LIST) as string;
+  constructor(private readonly http: HttpClientService) {}
 
-      try {
-        const todos: Todo[] = todoValue ? JSON.parse(todoValue) : [];
-        observer.next(todos);
-      } catch(error) {
-        observer.error(new Error('Unable to parse todo list data.'));
-      }
-    })
+  findAll(): Observable<Todo[]> {
+    return this.http.get('GET_ALL_TODOS');
+
+    // return new Observable<Todo[]>((observer: Observer<Todo[]>) => {
+    //   const todoValue: string = this.storage.getItem(TODO_LIST) as string;
+
+    //   try {
+    //     const todos: Todo[] = todoValue ? JSON.parse(todoValue) : [];
+    //     observer.next(todos);
+    //   } catch(error) {
+    //     observer.error(new Error('Unable to parse todo list data.'));
+    //   }
+    // })
   }
   
   findById(id: number): Observable<Todo> {

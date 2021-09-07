@@ -7,6 +7,7 @@ import { BsInputDirective } from './directives/bs-input.directive';
 import { TodoPipe } from './pipes/todo.pipe';
 import { JoinPipe } from './pipes/join.pipe';
 import { SessionService } from './services/session.service';
+import { HttpClientService } from './services/http-client.service';
 
 const components = [
   HeaderComponent,
@@ -24,7 +25,8 @@ const pipes = [
 ];
 
 const services = [
-  SessionService
+  SessionService,
+  HttpClientService
 ]
 
 @NgModule({

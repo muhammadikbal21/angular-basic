@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "https://612c487eab461c00178b5c47.mockapi.io/",
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}

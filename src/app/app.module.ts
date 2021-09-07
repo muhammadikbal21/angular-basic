@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
@@ -15,6 +16,7 @@ import { SharedModule } from './shared/shared.module';
   // untuk mengimport package yang dibutuhkan pada component ini
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule, // setelah membuat route di app-routing, import module app-routing nya disini
     PagesModule,
     ResumeModule,
