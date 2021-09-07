@@ -26,9 +26,9 @@ export class HttpClientService {
          * { id: 1 }
          */
         Object.keys(params).forEach((param: string) => {
-          param = `:${param}`; // :id
-          if (url.includes(param)) {
-            url = url.replace(param, params[ param ]);
+          const pathVariable: string = `:${param}`; // :id
+          if (url.includes(pathVariable)) {
+            url = url.replace(pathVariable, params[ param ]);
           }
         });
       }
@@ -66,7 +66,7 @@ export class HttpClientService {
   }
 
 
-  post(endpoint: string, body: any, params: Params, queryParams: Params) {
+  post(endpoint: string, body: any, params?: Params, queryParams?: Params): Observable<any> {
     const url: string = this.getEndpointUrl(endpoint, params);
     const httpParams: HttpParams = this.buildHttpParams(queryParams);
     const option = {
@@ -79,7 +79,7 @@ export class HttpClientService {
       );
   }
 
-  put(endpoint: string, body: any, params: Params, queryParams: Params) {
+  put(endpoint: string, body: any, params?: Params, queryParams?: Params): Observable<any> {
     const url: string = this.getEndpointUrl(endpoint, params);
     const httpParams: HttpParams = this.buildHttpParams(queryParams);
     const options = {
@@ -92,7 +92,7 @@ export class HttpClientService {
       );
   }
 
-  delete(endpoint: string, params: Params, queryParams: Params) {
+  delete(endpoint: string, params?: Params, queryParams?: Params): Observable<any> {
     const url: string = this.getEndpointUrl(endpoint, params);
     const httpParams: HttpParams = this.buildHttpParams(queryParams);
     const options = {

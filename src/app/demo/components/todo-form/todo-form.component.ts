@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { combineLatest } from 'rxjs';
+import { combineLatest, EMPTY } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { AlertMessage } from 'src/app/shared/models/alert-message.model';
 import { SessionService } from 'src/app/shared/services/session.service';
@@ -65,11 +65,12 @@ export class TodoFormComponent implements OnInit, OnChanges {
     this.activatedRoute.queryParams.pipe(
       // mengubah route params menjadi number
       map((params: Params) => {
-        return params.id ? +params.id : 0
+        return params.id ? +params.id : null
       }),
       // setelah itu ditangkap route params number tadi kesini
-      switchMap((id: number) => {
-        return this.todoService.findById(id)
+      switchMap((id: number | null) => {
+        if (!id) return EMPTY;
+        else return this.todoService.findById(id as number);
       })
     ).subscribe((todo: Todo) => {
       this.todo = todo;

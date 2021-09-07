@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer, Subject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { HttpClientService } from '../../shared/services/http-client.service';
 import { Todo } from '../models/todo.interface';
 
@@ -14,31 +15,10 @@ export class TodoService {
 
   findAll(): Observable<Todo[]> {
     return this.http.get('GET_ALL_TODOS');
-
-    // return new Observable<Todo[]>((observer: Observer<Todo[]>) => {
-    //   const todoValue: string = this.storage.getItem(TODO_LIST) as string;
-
-    //   try {
-    //     const todos: Todo[] = todoValue ? JSON.parse(todoValue) : [];
-    //     observer.next(todos);
-    //   } catch(error) {
-    //     observer.error(new Error('Unable to parse todo list data.'));
-    //   }
-    // })
   }
   
   findById(id: number): Observable<Todo> {
-    return new Observable<Todo>((observer: Observer<Todo>) => {
-      const todoValue: string = this.storage.getItem(TODO_LIST) as string;
-  
-      try {
-        const todos: Todo[] = todoValue ? JSON.parse(todoValue) : [];
-        const todo: Todo = todos.find((todo) => todo.id === id) as Todo;
-        observer.next(todo);
-      } catch(error) {
-        observer.error(new Error('Unable to parse todo list data.'));
-      }
-    })
+    return this.http.get('GET_SINGLE_TODOS', { id });
   }
   
   notify(): Observable<boolean> {
@@ -46,56 +26,28 @@ export class TodoService {
   }
   
   saveTodo(todo: Todo): Observable<Todo> {
-    return new Observable<Todo>((observer: Observer<Todo>) => {
-      const todoValue: string = this.storage.getItem(TODO_LIST) as string;
-  
-      try {
-        let todos: Todo[] = todoValue ? JSON.parse(todoValue) : [];
+    let request: Observable<Todo>;
 
-        if(todo.id) {
-          // UPDATE TODO
-          todos = todos.map((item) => {
-            if (item.id === todo.id) {
-              item = {
-                ...item,
-                ...todo
-              };
-            }
-            return item;
-          });
-        } else {
-          // ADD TODO
-          todo.id = todos.length + 1;
-          todos = todos.concat([todo]);
-        }
+    if (todo.id) {
+      request = this.http.put('PUT_TODOS', todo, { id: todo.id });
+    } else {
+      request = this.http.post('POST_TODOS', todo);
+    }
 
-        this.storage.setItem(TODO_LIST, JSON.stringify(todos));
-
-        observer.next(todo);
-        this.todoSubject.next(true);
-      } catch(error: any) {
-        observer.error(new Error(`Unable to save todo., ${error.message}`));
-      }
-    })
+    return request.pipe(
+      tap((todo: Todo) => {
+        this.todoSubject.next((todo !== undefined || todo !== null));
+      })
+    )
   }
   
   delete(id: number): Observable<void> {
-    return new Observable<void>((observer: Observer<void>) => {
-      const todoValue: string = this.storage.getItem(TODO_LIST) as string;
-  
-      try {
-        let todos: Todo[] = todoValue ? JSON.parse(todoValue) : [];
-
-        todos = todos.filter((todo) => todo.id !== id);
-  
-        this.storage.setItem(TODO_LIST, JSON.stringify(todos));
-
-        observer.next();
-        this.todoSubject.next(true);
-      } catch(error: any) {
-        observer.error(new Error(`Unable to delete todo., ${error.message}`));
-      }
-    })
+    return this.http.delete('DELETE_TODOS', { id })
+      .pipe(
+        map((todo: Todo) => {
+          this.todoSubject.next((todo !== undefined || todo !== null));
+        })
+      )
 
   }
 }
