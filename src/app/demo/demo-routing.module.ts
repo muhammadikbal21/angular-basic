@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RouteGuard } from '../shared/interceptors/route.guard';
 import { BankAccountComponent } from './components/bank-account/bank-account.component';
 import { TodoComponent } from './components/todo/todo.component';
 import { DemoComponent } from './demo.component';
@@ -8,6 +9,8 @@ const routes: Routes = [
   {
     path: '',
     component: DemoComponent,
+    canActivate: [ RouteGuard ],
+    canActivateChild: [ RouteGuard ],
     children: [
         {
             path: 'bank-account',
