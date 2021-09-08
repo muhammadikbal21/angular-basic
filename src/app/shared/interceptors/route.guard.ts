@@ -22,7 +22,7 @@ export class RouteGuard implements CanActivate, CanActivateChild {
   }
 
   private authorize(): boolean {
-    const authorized: boolean = (sessionStorage.getItem('authorized') !== null);
+    const authorized: boolean = (this.sessionService.getSession() !== null);
 
     if (!authorized) {
       const message: AlertMessage = { status: 'warning', text: 'Please login before continuing to that page.'}

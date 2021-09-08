@@ -54,9 +54,40 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Contact Me</a>
             </li>
+            <li class="nav-item">
+              <button *ngIf="!authorized" class="btn btn-link nav-link" data-bs-toggle="modal" data-bs-target="#loginForm">Login</button>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
+  </div>
+</div>
+
+<!-- Modal Login Form -->
+<div *ngIf="!authorized" class="modal fade" id="loginForm" tabindex="-1" aria-labelledby="loginFormLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginFormLabel">Login Form</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="login()">
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge"></i></span>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" formControlName="{{ formField.USERNAME }}">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"><i class="bi bi-shield-lock-fill"></i></span>
+            <input type="password" class="form-control" placeholder="Password" aria-label="Password" formControlName="{{ formField.PASSWORD }}">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Login</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

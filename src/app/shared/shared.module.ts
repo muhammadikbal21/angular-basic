@@ -8,6 +8,7 @@ import { TodoPipe } from './pipes/todo.pipe';
 import { JoinPipe } from './pipes/join.pipe';
 import { SessionService } from './services/session.service';
 import { HttpClientService } from './services/http-client.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const components = [
   HeaderComponent,
@@ -36,7 +37,9 @@ const services = [
     ...pipes
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     ...components,
