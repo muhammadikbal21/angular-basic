@@ -9,6 +9,7 @@ import { TodoFormComponent } from './components/todo-form/todo-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { TodoService } from './services/todo.service';
+import { BankAccountService } from './services/bank-account.service';
 
 
 
@@ -28,7 +29,8 @@ import { TodoService } from './services/todo.service';
     SharedModule
   ],
   providers: [
-    TodoService
+    TodoService,
+    BankAccountService
   ]
 })
 export class DemoModule { }
